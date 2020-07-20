@@ -67,13 +67,13 @@ export default {
     checkTribe () {
       this.existTribe = false
       this.showTooltip = this.tribes.some((tribe, i) => Object.keys(tribe).some(t => {
-        if (this.inputValue.toLowerCase() === this.tribes[i][t].toLowerCase()) {
+        if (this.inputValue.trim().toLowerCase() === this.tribes[i][t].toLowerCase()) {
           this.existTribe = true
           this.tooltipText = `Возможно вы имели в виду ${this.rightTribe[t]}`
           return true
         }
       }))
-      this.isRightTribe = Object.keys(this.rightTribe).some(m => this.inputValue.toLowerCase() === this.rightTribe[m].toLowerCase())
+      this.isRightTribe = Object.keys(this.rightTribe).some(m => this.inputValue.trim().toLowerCase() === this.rightTribe[m].toLowerCase())
     }
   }
 }
