@@ -2,7 +2,7 @@
   <div class="content">
     <div class="input-wrapper">
       <input
-        @input="checkTribe"
+        @input="inputField"
         @focus="focus"
         @focusout="focusOut"
         v-model="inputValue"
@@ -89,6 +89,27 @@ export default {
           male: 'Убых',
           female: 'Убышка'
         }
+      ],
+      circassianTribeNames: [
+        'Абдзах',
+        'Адэмый',
+        'Бжъэдыгъу',
+        'Гъоайе',
+        'Еджэрыкъуай',
+        'Жанэ', 'Жаней',
+        'Мэмхэгъ',
+        'Махошъ',
+        'Натыхъуай', 'Наткъуадж',
+        'Кӏэмгуй', 'Кӏэмыргуей',
+        'Хьэтыкъуай',
+        'Хэгъуайкъу',
+        'Хьэтӏукъу',
+        'Цӏопсынэ',
+        'Хьакӏуцу',
+        'Беслъэней',
+        'Шэпсыгъ',
+        'Къэбэрдей',
+        'Уббых', 'Пэху'
       ]
     }
   },
@@ -105,14 +126,27 @@ export default {
       this.isFocused = false
     },
     checkTribe () {
-      this.existTribe = false
-      this.showTooltip = this.tribes.some((tribe, i) => Object.keys(tribe).some(t => {
+      let tribeFind = this.tribes.some((tribe, i) => Object.keys(tribe).some(t => {
         if (this.inputValue.trim().toLowerCase() === this.tribes[i][t].toLowerCase()) {
           this.existTribe = true
           this.tooltipText = `Возможно вы имели в виду ${this.rightTribe[t]}`
           return true
         }
       }))
+      if (!tribeFind) {
+        tribeFind = this.circassianTribeNames.some(name => {
+          if (this.inputValue.trim().toLowerCase() === name.toLowerCase()) {
+            this.tooltipText = `Возможно вы имели в виду Адыгэ`
+            return true
+          }
+        })
+      }
+      return tribeFind
+    },
+    inputField () {
+      this.existTribe = false
+      this.showTooltip = this.checkTribe()
+
       this.isRightTribe = Object.keys(this.rightTribe).some(m => this.inputValue.trim().toLowerCase() === this.rightTribe[m].toLowerCase())
     }
   }
